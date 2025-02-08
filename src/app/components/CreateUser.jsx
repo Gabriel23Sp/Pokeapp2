@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import {PokemonSelector} from '../components/Pokemons'
 
-const POKEMON_LIST = ["Pikachu", "Charmander", "Bulbasaur", "Squirtle", "Eevee"];
 
-export default function CreatedUser({ users, setUsers, setCreatingUser }) {
+
+export default function CreateUser({ users, setUsers, setCreatingUser }) {
   const [newUser, setNewUser] = useState({
     nombre: "",
     nickname: "",
@@ -10,22 +11,15 @@ export default function CreatedUser({ users, setUsers, setCreatingUser }) {
     telefono: "",
     fechaNacimiento: "",
     pokemon: "",
-    password: "",
+    password: ""
   });
 
   const handleCreateUser = () => {
-    if (
-      !newUser.nombre ||
-      !newUser.nickname ||
-      !newUser.correo ||
-      !newUser.telefono ||
-      !newUser.fechaNacimiento ||
-      !newUser.password
-    ) {
-      alert("Por favor, completa todos los campos.");
+    if (!newUser.nombre || !newUser.nickname || !newUser.correo || !newUser.telefono || !newUser.fechaNacimiento || !newUser.pokemon || !newUser.password) {
+      alert("Todos los campos son obligatorios");
       return;
     }
-
+    
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     setCreatingUser(false);
@@ -33,75 +27,17 @@ export default function CreatedUser({ users, setUsers, setCreatingUser }) {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="w-full">
       <h2 className="text-xl font-bold mb-4">Crear Usuario</h2>
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={newUser.nombre}
-        onChange={(e) => setNewUser({ ...newUser, nombre: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <input
-        type="text"
-        placeholder="Nickname"
-        value={newUser.nickname}
-        onChange={(e) => setNewUser({ ...newUser, nickname: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <input
-        type="email"
-        placeholder="Correo"
-        value={newUser.correo}
-        onChange={(e) => setNewUser({ ...newUser, correo: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <input
-        type="text"
-        placeholder="Teléfono"
-        value={newUser.telefono}
-        onChange={(e) => setNewUser({ ...newUser, telefono: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <input
-        type="date"
-        value={newUser.fechaNacimiento}
-        onChange={(e) =>
-          setNewUser({ ...newUser, fechaNacimiento: e.target.value })
-        }
-        className="w-full p-2 border rounded mb-2"
-      />
-      <select
-        value={newUser.pokemon}
-        onChange={(e) => setNewUser({ ...newUser, pokemon: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      >
-        <option value="">Selecciona un Pokémon</option>
-        {POKEMON_LIST.map((pokemon) => (
-          <option key={pokemon} value={pokemon}>
-            {pokemon}
-          </option>
-        ))}
-      </select>
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={newUser.password}
-        onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-        className="w-full p-2 border rounded mb-2"
-      />
-      <button
-        className="w-full bg-green-500 text-white p-2 rounded mb-2"
-        onClick={handleCreateUser}
-      >
-        Registrar
-      </button>
-      <button
-        className="w-full bg-gray-500 text-white p-2 rounded"
-        onClick={() => setCreatingUser(false)}
-      >
-        Cancelar
-      </button>
+      <input type="text" placeholder="Nombre" value={newUser.nombre} onChange={(e) => setNewUser({ ...newUser, nombre: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <input type="text" placeholder="Nickname" value={newUser.nickname} onChange={(e) => setNewUser({ ...newUser, nickname: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <input type="email" placeholder="Correo" value={newUser.correo} onChange={(e) => setNewUser({ ...newUser, correo: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <input type="text" placeholder="Teléfono" value={newUser.telefono} onChange={(e) => setNewUser({ ...newUser, telefono: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <input type="date" placeholder="Fecha de Nacimiento" value={newUser.fechaNacimiento} onChange={(e) => setNewUser({ ...newUser, fechaNacimiento: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <PokemonSelector selectedPokemon={newUser.pokemon} onSelectPokemon={(value) => setNewUser({ ...newUser, pokemon: value })} />
+      <input type="password" placeholder="Contraseña" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} className="w-full mb-2 p-2 border rounded" />
+      <button className="w-full bg-green-500 text-white p-2 rounded" onClick={handleCreateUser}>Registrar</button>
+      <button className="w-full bg-gray-500 text-white p-2 rounded mt-2" onClick={() => setCreatingUser(false)}>Cancelar</button>
     </div>
   );
 }
