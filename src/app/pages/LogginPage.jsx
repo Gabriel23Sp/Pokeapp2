@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import UserProfile from '../components/UserProfile'
+import CreateUser from '../components/CreateUser'
 
 const USERS_JSON = "users.json";
 
@@ -18,6 +19,7 @@ export default function LoginApp() {
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [creatingUser, setCreatingUser] = useState(false);
 
   useEffect(() => {
     fetchUsers().then(setUsers);
@@ -40,24 +42,39 @@ export default function LoginApp() {
         <UserProfile user={loggedInUser} users={users} setUsers={setUsers} setLoggedInUser={setLoggedInUser} />
       ) : (
         <div className="p-6 bg-white rounded-xl shadow-md w-80">
-          <h2 className="text-xl font-bold mb-4">Iniciar Sesión</h2>
-          <input
-            type="text"
-            placeholder="Usuario"
-            className="w-full p-2 border rounded mb-2"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            className="w-full p-2 border rounded mb-2"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="w-full bg-blue-500 text-white p-2 rounded" onClick={handleLogin}>
-            Iniciar Sesión
-          </button>
+          {creatingUser ? (
+            <CreateUser users={users} setUsers={setUsers} setCreatingUser={setCreatingUser} />
+          ) : (
+            <div>
+              <h2 className="text-xl font-bold mb-4">Iniciar Sesión</h2>
+              <input
+                type="text"
+                placeholder="Usuario"
+                className="w-full p-2 border rounded mb-2"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Contraseña"
+                className="w-full p-2 border rounded mb-2"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                className="w-full bg-blue-500 text-white p-2 rounded mb-2"
+                onClick={handleLogin}
+              >
+                Iniciar Sesión
+              </button>
+              <button
+                className="w-full bg-gray-500 text-white p-2 rounded"
+                onClick={() => setCreatingUser(true)}
+              >
+                Crear Usuario
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
