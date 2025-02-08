@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "Juan Pérez",
+    "apellido": "Pérez",
+    "nickname": "juanpe",
+    "correo": "juan.perez@example.com",
+    "password": "123456",
+    "fechaNacimiento": "1990-05-15",
+    "telefono": "123456789",
+    "pokemon": "pikachu"
+  },
+  {
+    "nombre": "María López",
+    "apellido": "López",
+    "nickname": "marial",
+    "correo": "maria.lopez@example.com",
+    "password": "abcdef",
+    "fechaNacimiento": "1988-09-22",
+    "telefono": "987654321",
+    "pokemon": "charizard"
+  },
+  {
+    "nombre": "Carlos Rodríguez",
+    "apellido": "Rodríguez",
+    "nickname": "carlitos",
+    "correo": "carlos.rodriguez@example.com",
+    "password": "qwerty",
+    "fechaNacimiento": "1995-02-10",
+    "telefono": "456789123",
+    "pokemon": "bulbasaur"
+  }
+]

@@ -1,11 +1,11 @@
 'use client'
 import Image from "next/image";
-import { Form } from "./components/Form";
+import LogginPage from './pages/LogginPage'
 
 export default function Home() {
   return (
     <div className="">
-      <Form />
+        <LogginPage />
     </div>
   );
 }
