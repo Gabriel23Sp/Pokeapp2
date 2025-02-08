@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { PokemonSelector } from "./Pokemons";
 
-export default function UserProfile({ user, users, setUsers, setLoggedInUser }) {
+export default function  UserProfile({ user, users, setUsers, setLoggedInUser }) {
   const [pokemonImage, setPokemonImage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredUser, setFilteredUser] = useState(null);
 
   useEffect(() => {
     if (user.pokemon) {
@@ -32,6 +34,17 @@ export default function UserProfile({ user, users, setUsers, setLoggedInUser }) 
     setTimeout(() => setShowMessage(false), 2000);
   };
 
+  const handleSearch = () => {
+    const foundUser = users.find((u) => u.nickname.toLowerCase() === searchTerm.toLowerCase());
+    setFilteredUser(foundUser || null);
+  };
+
+  const handleDeleteUser = () => {
+    if (filteredUser) {
+      setUsers(users.filter((u) => u.nickname !== filteredUser.nickname));
+      setFilteredUser(null);
+    }
+  };
   return (
     <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white rounded-xl shadow-md w-[50%]">
       <div className="w-full md:w-1/3 p-4 border rounded-xl bg-gray-100 text-black h-full">
@@ -46,40 +59,32 @@ export default function UserProfile({ user, users, setUsers, setLoggedInUser }) 
         </button>
       </div>
 
-      <div className="w-full md:w-2/3 p-4 border rounded-xl bg-gray-100 overflow-y-auto max-h-96 h-full">
+      <div className="w-full md:w-2/3 p-4 border rounded-xl bg-gray-100 overflow-y-auto max-h-96">
         <h3 className="text-lg font-bold mb-4">Modificar Usuarios</h3>
-        {users.map((u, index) => (
-          <div key={index} className="mb-4 border p-2 rounded">
-            <input
-              type="text"
-              value={u.nombre}
-              onChange={(e) => handleUpdateUser(index, "nombre", e.target.value)}
-              className="w-full mb-1 p-2 border rounded"
-            />
-            <input
-              type="text"
-              value={u.nickname}
-              onChange={(e) => handleUpdateUser(index, "nickname", e.target.value)}
-              className="w-full mb-1 p-2 border rounded"
-            />
-            <input
-              type="text"
-              value={u.correo}
-              onChange={(e) => handleUpdateUser(index, "correo", e.target.value)}
-              className="w-full mb-1 p-2 border rounded"
-            />
-            <input
-              type="password"
-              value={u.password}
-              onChange={(e) => handleUpdateUser(index, "password", e.target.value)}
-              className="w-full mb-1 p-2 border rounded"
-            />
-            <PokemonSelector
-              selectedPokemon={u.pokemon}
-              onSelectPokemon={(value) => handleUpdateUser(index, "pokemon", value)}
-            />
+        <input
+          type="text"
+          placeholder="Buscar usuario por nickname"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border rounded mb-2"
+        />
+        <button className="w-full bg-blue-500 text-white p-2 rounded mb-2" onClick={handleSearch}>
+          Buscar Usuario
+        </button>
+        {filteredUser && (
+          <div className="mb-4 border p-2 rounded">
+            <input type="text" value={filteredUser.nombre} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "nombre", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <input type="text" value={filteredUser.apellido} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "apellido", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <input type="text" value={filteredUser.nickname} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "nickname", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <input type="email" value={filteredUser.correo} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "correo", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <input type="text" value={filteredUser.telefono} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "telefono", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <input type="date" value={filteredUser.fechaNacimiento} onChange={(e) => handleUpdateUser(users.indexOf(filteredUser), "fechaNacimiento", e.target.value)} className="w-full mb-1 p-2 border rounded" />
+            <PokemonSelector selectedPokemon={filteredUser.pokemon} onSelectPokemon={(value) => handleUpdateUser(users.indexOf(filteredUser), "pokemon", value)} />
+            <button className="w-full bg-red-500 text-white p-2 rounded mt-2" onClick={handleDeleteUser}>
+              Eliminar Usuario
+            </button>
           </div>
-        ))}
+        )}
         <button className="w-full bg-green-500 text-white p-2 rounded mt-2" onClick={saveChanges}>
           Guardar Cambios
         </button>
