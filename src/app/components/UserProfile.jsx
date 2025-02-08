@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from "react";
 import { PokemonSelector } from "./Pokemons";
 
@@ -46,8 +47,8 @@ export default function  UserProfile({ user, users, setUsers, setLoggedInUser })
     }
   };
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white rounded-xl shadow-md w-[50%]">
-      <div className="w-full md:w-1/3 p-4 border rounded-xl bg-gray-100 text-black h-full">
+    <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-white rounded-xl shadow-md w-[80%] max-md:w-3/4 ">
+      <div className="w-full md:w-1/2 p-4 border rounded-xl bg-gray-100 text-black h-full">
         <h2 className="text-xl font-bold mb-4">Perfil del Usuario</h2>
         <p><strong>Nombre:</strong> {user.nombre}</p>
         <p><strong>Nickname:</strong> {user.nickname}</p>
